@@ -1,0 +1,111 @@
+#include <iostream>
+#include <string>
+#include <sstream>
+#include <bitset>
+#include <cmath>
+#include <iomanip>
+#include <vector>
+#include <stdio.h>
+#include <algorithm>
+using namespace std;
+void blankbitset(vector <bitset <8> >& board,int a,int b)
+{
+    for (int i=0; i<8; i++)
+    {
+        board[i][b]=1;
+        board[a][i]=1;
+
+    }
+    int i=0;
+    while (a-i>=0 && b-i>=0)
+    {
+        board[a-i][b-i]=1;
+        i++;
+    }
+    i=0;
+     while (a+i<=7 && b+i<=7)
+    {
+        board[a+i][b+i]=1;
+        i++;
+    }
+    i=0;
+     while (a+i<=7 && b-i>=0)
+    {
+        board[a+i][b-i]=1;
+        i++;
+    }
+    i=0;
+     while (a-i>=0 && b+i<=7)
+    {
+        board[a-i][b+i]=1;
+        i++;
+    }
+}
+bool Queen(vector <bitset <8> > board, vector <vector <int> >& results,int k,int l,int TEST,vector <int> res)
+{
+
+
+
+    if (TEST==7)
+    {
+
+        results.push_back(res);
+        return true;
+    }
+   blankbitset(board,k,l);
+ if (TEST==0)l=-1;
+    for (int i=0; i<8; i++)
+    {
+        for (int j=l+1; j<8; j++)
+        {
+            if (board[i][j]==0)
+            {
+                res[j]=i;
+
+
+             if (Queen(board,results,i,j,TEST+1,res))continue;
+
+            }
+        }
+    }
+    return false;
+}
+
+
+int main()
+{
+    int n;
+    cin>>n;
+    
+
+    for (int i=0; i<n; i++)
+    {
+        vector <bitset <8> > board(8,bitset <8> (0));
+        int a,b;
+        cin>>a>>b;
+
+
+        vector <int> res(8);
+        res[b-1]=a-1;
+        vector <vector <int> > results(0);
+        int TEST=0;
+
+        Queen(board,results,a-1,b-1,TEST,res);
+        sort(results.begin(),results.end());
+        cout<<"SOLN       COLUMN"<<endl;
+        cout<< " #      1 2 3 4 5 6 7 8"<<endl<<endl;
+        for (int j=0;j<results.size();j++)
+        {
+            if (j>=9)cout<<j+1<<"      ";
+            else cout<<" "<<j+1<<"      ";
+            for (int k=0;k<8;k++)
+            {
+                cout<<results[j][k]+1;
+                if (k!=7)cout<<" ";
+            }
+            cout<<endl;
+
+
+
+    } if (i!=n-1)cout<<endl;
+}}
