@@ -1,0 +1,51 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int main()
+{
+    long long n,k ;
+    cin>>n>>k;
+    vector <pair <long long,long long>> table(n);
+    for(int i=0;i<n;i++)
+    {
+        cin>>table[i].second>>table[i].first;
+
+    }
+    sort(table.begin(),table.end());
+    set <pair <long long,long long>> tmp;
+    long long sum = 0;
+    long long result = 0;
+    for (int i=n-1;i>=0;i--)
+    { if (tmp.size()<k)
+    {
+
+
+
+            tmp.insert(make_pair(table[i].second,i));
+            sum+=table[i].second;
+
+                result = max(sum*table[i].first,result);
+
+        }
+
+        else
+        {
+
+            long long a = tmp.begin()->first;
+            if (table[i].second>a)
+            {
+
+                sum+=table[i].second-a;
+
+                tmp.insert(make_pair(table[i].second,i));
+                tmp.erase(tmp.begin());
+                 if (sum*table[i].first>result)result = sum*table[i].first;
+            }
+
+
+        }
+    }
+    cout<<result<<endl;
+
+}
